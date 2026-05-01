@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>मतदार गाइड — India Voter Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --saffron:#FF6700;
+  --saffron-light:#FF8C38;
+  --saffron-dim:#cc5200;
+  --deep:#0B1120;
+  --deep-mid:#131c30;
+  --navy:#1a2540;
+  --india-green:#138808;
+  --india-green-light:#1aad0a;
+  --wheel-blue:#000080;
+  --cream:#FDF8F2;
+  --text-on-dark:#EEE8DC;
+  --text-muted-dark:rgba(238,232,220,0.55);
+  --gold:#E8B84B;
+  --gold-dim:#b8892a;
+  --glass:rgba(255,255,255,0.06);
+  --glass-border:rgba(255,255,255,0.1);
+  --card-bg:#131c30;
+  --input-bg:#0d1525;
+  --urgent-bg:rgba(255,80,50,0.15);
+  --urgent-border:rgba(255,80,50,0.35);
+  --ok-bg:rgba(19,136,8,0.15);
+  --ok-border:rgba(19,136,8,0.3);
+  --warn-bg:rgba(255,103,0,0.15);
+  --warn-border:rgba(255,103,0,0.35);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--deep);
+  color:var(--text-on-dark);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* GEOMETRIC BACKGROUND */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 10% 10%,rgba(255,103,0,0.08) 0%,transparent 65%),
+    radial-gradient(ellipse 55% 65% at 90% 90%,rgba(19,136,8,0.07) 0%,transparent 65%),
+    radial-gradient(ellipse 40% 40% at 50% 0%,rgba(0,0,128,0.1) 0%,transparent 60%);
+}
+
+/* ASHOKA WHEEL WATERMARK */
+body::after{
+  content:'';position:fixed;right:-120px;bottom:-120px;z-index:0;pointer-events:none;
+  width:500px;height:500px;border-radius:50%;
+  border:2px solid rgba(0,0,128,0.08);
+  box-shadow:0 0 0 40px rgba(0,0,128,0.03),0 0 0 80px rgba(0,0,128,0.02);
+}
+
+.container{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 1.5rem 5rem;}
+
+/* TRICOLOR TOP BAR */
+.tricolor-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:4px;
+  background:linear-gradient(90deg,var(--saffron) 33.33%,white 33.33%,white 66.66%,var(--india-green) 66.66%);
+}
+
+/* HEADER */
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:2.5rem 0 0;margin-bottom:2rem;
+}
+.logo{display:flex;align-items:center;gap:12px;}
+.logo-emblem{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--saffron),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+  box-shadow:0 0 0 2px rgba(255,103,0,0.3);
+}
+.logo-text{
+  font-family:'Playfair Display',serif;font-size:21px;font-weight:700;
+  color:var(--text-on-dark);letter-spacing:-0.01em;line-height:1.1;
+}
+.logo-text .hi{
+  display:block;font-family:'JetBrains Mono',monospace;
+  font-size:10px;font-weight:400;letter-spacing:0.12em;
+  color:var(--saffron);text-transform:uppercase;margin-bottom:1px;
+}
+.ai-badge{
+  display:flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;
+  color:var(--india-green-light);
+  background:rgba(19,136,8,0.15);
+  padding:5px 12px;border-radius:99px;border:1px solid rgba(19,136,8,0.3);
+}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--india-green-light);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.25;}}`+`
+
+/* HERO */
+.hero{text-align:center;padding:0.5rem 0 2.5rem;animation:fadeUp 0.6s ease both;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--saffron);margin-bottom:1rem;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:24px;height:1px;background:var(--saffron);opacity:0.5;}
+.hero-title{
+  font-family:'Playfair Display',serif;font-weight:700;
+  font-size:clamp(2rem,5vw,3.4rem);line-height:1.08;
+  color:var(--text-on-dark);letter-spacing:-0.02em;margin-bottom:0.9rem;
+}
+.hero-title em{font-style:italic;font-weight:400;color:var(--saffron);}
+.hero-title .green{color:var(--india-green-light);}
+.hero-sub{
+  font-size:15px;color:var(--text-muted-dark);
+  max-width:480px;margin:0 auto 0.5rem;line-height:1.65;
+}
+.eci-note{
+  display:inline-block;margin-top:0.75rem;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--gold-dim);letter-spacing:0.04em;
+  background:rgba(232,184,75,0.08);border:1px solid rgba(232,184,75,0.15);
+  padding:5px 14px;border-radius:99px;
+}
+
+/* INPUT CARD */
+.input-card{
+  background:var(--card-bg);
+  border:1px solid var(--glass-border);
+  border-radius:20px;padding:1.75rem;margin-bottom:1.75rem;
+  animation:fadeUp 0.6s 0.1s ease both;
+  position:relative;overflow:hidden;
+}
+.input-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--saffron),var(--gold),var(--india-green));
+}
+.input-card-title{
+  font-family:'Playfair Display',serif;font-size:19px;font-weight:700;
+  color:var(--text-on-dark);margin-bottom:4px;
+}
+.input-card-sub{font-size:13px;color:var(--text-muted-dark);margin-bottom:1.25rem;}
+
+.quick-label{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--text-muted-dark);margin-bottom:8px;display:block;
+}
+.quick-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;}
+.quick-chip{
+  font-size:12px;padding:5px 12px;
+  border:1px solid var(--glass-border);border-radius:99px;
+  background:var(--glass);color:var(--text-muted-dark);
+  cursor:pointer;transition:all 0.15s;
+}
+.quick-chip:hover,.quick-chip.sel{background:var(--saffron);color:white;border-color:var(--saffron);}
+
+.fields-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+@media(max-width:560px){.fields-grid{grid-template-columns:1fr;}}
+.field-group{display:flex;flex-direction:column;gap:5px;}
+.field-group.full{grid-column:1/-1;}
+.field-label{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--text-muted-dark);
+}
+.field-input{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;
+  padding:10px 13px;
+  background:var(--input-bg);border:1px solid var(--glass-border);border-radius:10px;
+  color:var(--text-on-dark);outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.field-input:focus{border-color:var(--saffron);box-shadow:0 0 0 3px rgba(255,103,0,0.12);}
+.field-input::placeholder{color:rgba(238,232,220,0.3);}
+select.field-input{cursor:pointer;}
+select.field-input option{background:#0d1525;color:var(--text-on-dark);}
+
+.analyze-btn{
+  width:100%;font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:600;
+  padding:14px 24px;
+  background:linear-gradient(135deg,var(--saffron),#e85d00);
+  color:white;border:none;border-radius:12px;cursor:pointer;
+  transition:opacity 0.2s,transform 0.1s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 4px 20px rgba(255,103,0,0.3);
+}
+.analyze-btn:hover{opacity:0.9;}
+.analyze-btn:active{transform:scale(0.98);}
+.analyze-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+
+/* PROGRESS */
+.progress-strip{
+  background:var(--card-bg);border:1px solid var(--glass-border);
+  border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.5rem;
+  display:none;animation:fadeUp 0.4s ease both;
+}
+.progress-strip.visible{display:block;}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.prog-label-txt{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted-dark);}
+.prog-pct{font-family:'Playfair Display',serif;font-size:22px;color:var(--text-on-dark);}
+.prog-track{height:7px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;width:0%;border-radius:99px;transition:width 1.3s cubic-bezier(0.4,0,0.2,1);
+  background:linear-gradient(90deg,var(--saffron),var(--gold),var(--india-green));}
+
+/* LOADING */
+.loading-card{
+  background:var(--card-bg);border:1px solid var(--glass-border);
+  border-radius:20px;padding:2.5rem;text-align:center;
+  display:none;animation:fadeUp 0.4s ease both;
+}
+.loading-card.visible{display:block;}
+.loading-orb{
+  width:60px;height:60px;border-radius:50%;
+  border:3px solid rgba(255,255,255,0.08);
+  border-top-color:var(--saffron);
+  animation:spin 1s linear infinite;
+  margin:0 auto 1.2rem;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-title{font-family:'Playfair Display',serif;font-size:20px;color:var(--text-on-dark);margin-bottom:5px;}
+.loading-sub{font-size:13px;color:var(--text-muted-dark);}
+.loading-steps{display:flex;flex-direction:column;gap:6px;margin-top:1.25rem;text-align:left;max-width:340px;margin-left:auto;margin-right:auto;}
+.loading-step{
+  display:flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted-dark);
+  padding:7px 12px;border-radius:8px;background:var(--glass);
+  transition:all 0.3s;border:1px solid transparent;
+}
+.loading-step.active{color:var(--saffron);background:rgba(255,103,0,0.1);border-color:rgba(255,103,0,0.2);}
+.loading-step.done{color:var(--india-green-light);}
+.step-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+/* RESULTS */
+.results-area{display:none;animation:fadeUp 0.5s ease both;}
+.results-area.visible{display:block;}
+.results-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px;}
+.results-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--text-on-dark);line-height:1.2;}
+.results-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted-dark);margin-top:3px;letter-spacing:0.04em;}
+.reset-btn{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:500;
+  padding:7px 14px;border:1px solid var(--glass-border);border-radius:8px;
+  background:var(--glass);color:var(--text-muted-dark);cursor:pointer;transition:all 0.15s;
+  flex-shrink:0;
+}
+.reset-btn:hover{border-color:var(--saffron);color:var(--saffron);}
+
+/* RESPONSE CARDS */
+.response-grid{display:grid;gap:14px;margin-bottom:1.5rem;}
+.response-card{
+  background:var(--card-bg);border:1px solid var(--glass-border);
+  border-radius:16px;overflow:hidden;
+  transition:box-shadow 0.2s,border-color 0.2s;
+  animation:fadeUp 0.5s ease both;
+}
+.response-card:hover{box-shadow:0 6px 28px rgba(0,0,0,0.3);}
+.card-header{
+  display:flex;align-items:center;gap:10px;
+  padding:1rem 1.25rem;border-bottom:1px solid var(--glass-border);
+}
+.card-num{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted-dark);}
+.card-title{font-size:15px;font-weight:600;color:var(--text-on-dark);}
+.card-status{
+  margin-left:auto;font-family:'JetBrains Mono',monospace;
+  font-size:10px;padding:3px 10px;border-radius:99px;white-space:nowrap;
+}
+.s-urgent{background:var(--urgent-bg);color:#ff6666;border:1px solid var(--urgent-border);}
+.s-action{background:var(--warn-bg);color:var(--saffron-light);border:1px solid var(--warn-border);}
+.s-ready{background:var(--ok-bg);color:var(--india-green-light);border:1px solid var(--ok-border);}
+.s-info{background:rgba(232,184,75,0.12);color:var(--gold);border:1px solid rgba(232,184,75,0.25);}
+
+.card-body{padding:1.1rem 1.25rem;}
+.card-summary{font-size:14px;color:rgba(238,232,220,0.8);line-height:1.75;margin-bottom:0.9rem;}
+.key-facts{list-style:none;}
+.key-facts li{
+  display:flex;gap:9px;align-items:flex-start;
+  padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);
+  font-size:13px;color:rgba(238,232,220,0.7);line-height:1.55;
+}
+.key-facts li:last-child{border-bottom:none;}
+.fact-icon{
+  flex-shrink:0;margin-top:3px;width:15px;height:15px;border-radius:50%;
+  background:rgba(19,136,8,0.2);display:flex;align-items:center;justify-content:center;
+}
+.next-step-box{
+  background:rgba(255,103,0,0.1);border-left:3px solid var(--saffron);
+  padding:10px 14px;border-radius:0 9px 9px 0;margin-top:0.75rem;
+}
+.next-step-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--saffron-dim);margin-bottom:3px;}
+.next-step-text{font-size:13px;font-weight:600;color:var(--text-on-dark);}
+
+/* CHAT */
+.chat-section{
+  background:var(--card-bg);border:1px solid var(--glass-border);
+  border-radius:20px;overflow:hidden;margin-bottom:1.5rem;
+}
+.chat-header{
+  padding:1rem 1.25rem;border-bottom:1px solid var(--glass-border);
+  font-family:'Playfair Display',serif;font-size:17px;color:var(--text-on-dark);
+  display:flex;align-items:center;gap:8px;
+}
+.chat-messages{padding:1rem 1.25rem;min-height:60px;max-height:380px;overflow-y:auto;}
+.chat-msg{margin-bottom:1rem;}
+.chat-msg-role{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;}
+.msg-user .chat-msg-role{color:var(--gold);}
+.msg-ai .chat-msg-role{color:var(--india-green-light);}
+.chat-msg-text{font-size:14px;line-height:1.7;padding:10px 13px;border-radius:10px;}
+.msg-user .chat-msg-text{background:rgba(255,255,255,0.06);color:var(--text-on-dark);}
+.msg-ai .chat-msg-text{background:rgba(19,136,8,0.12);color:var(--text-on-dark);}
+.followup-chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 1rem 0.75rem;}
+.followup-chip{
+  font-size:12px;padding:5px 11px;
+  border:1px solid var(--glass-border);border-radius:99px;
+  background:var(--glass);color:var(--text-muted-dark);
+  cursor:pointer;transition:all 0.15s;
+}
+.followup-chip:hover{background:var(--saffron);color:white;border-color:var(--saffron);}
+.chat-input-row{display:flex;gap:8px;padding:0.75rem 1rem;border-top:1px solid var(--glass-border);}
+.chat-input{
+  flex:1;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;
+  padding:9px 13px;background:var(--input-bg);
+  border:1px solid var(--glass-border);border-radius:9px;
+  color:var(--text-on-dark);outline:none;transition:border-color 0.2s;
+}
+.chat-input:focus{border-color:var(--saffron);}
+.chat-input::placeholder{color:rgba(238,232,220,0.3);}
+.chat-send{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;
+  padding:9px 16px;
+  background:linear-gradient(135deg,var(--saffron),#e85d00);
+  color:white;border:none;border-radius:9px;cursor:pointer;
+  transition:opacity 0.15s;white-space:nowrap;
+}
+.chat-send:hover{opacity:0.85;}
+.chat-send:disabled{opacity:0.4;cursor:not-allowed;}
+
+/* TYPING */
+.typing-indicator{display:flex;gap:4px;align-items:center;padding:6px 0;}
+.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text-muted-dark);animation:typingBounce 1.2s infinite;}
+.typing-dot:nth-child(2){animation-delay:0.2s;}
+.typing-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+
+/* FOOTER */
+footer{text-align:center;padding-top:2rem;border-top:1px solid var(--glass-border);}
+.footer-text{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-muted-dark);letter-spacing:0.04em;}
+.footer-eci{margin-top:6px;font-size:11px;color:rgba(238,232,220,0.3);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+</style>
+</head>
+<body>
+
+<div class="tricolor-bar"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="logo-emblem">🗳️</div>
+      <div class="logo-text">
+        <span class="hi">मतदार गाइड</span>
+        CivicGuide <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--saffron);font-weight:400;">India</span>
+      </div>
+    </div>
+    <div class="ai-badge"><span class="ai-dot"></span>AI POWERED</div>
+  </header>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Election Intelligence for Every Indian Voter</div>
+    <h1 class="hero-title">
+      <em>Apna vote,</em><br>
+      <span class="green">apna adhikar.</span>
+    </h1>
+    <p class="hero-sub">Tell us your situation. Our AI analyzes ECI rules, your state's election laws, EPIC/Aadhaar requirements, and booth-level details — then builds your personal readiness plan.</p>
+    <span class="eci-note">✦ Covers Lok Sabha · Vidhan Sabha · Local Body Elections</span>
+  </div>
+
+  <!-- INPUT CARD -->
+  <div class="input-card" id="inputCard">
+    <div class="input-card-title">Apni jankari dein</div>
+    <div class="input-card-sub">Jitni zyada jaankari, utna accurate aapka analysis.</div>
+
+    <span class="quick-label">Quick situations — tap to add</span>
+    <div class="quick-chips" id="quickChips"></div>
+
+    <div class="fields-grid">
+      <div class="field-group">
+        <label class="field-label">State / UT</label>
+        <select class="field-input" id="stateSelect">
+          <option value="">Select your state…</option>
+          <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+          <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option>
+          <option>Haryana</option><option>Himachal Pradesh</option><option>Jharkhand</option>
+          <option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option>
+          <option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option>
+          <option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option>
+          <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+          <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+          <option>West Bengal</option>
+          <option>Andaman &amp; Nicobar Islands</option><option>Chandigarh</option>
+          <option>Dadra &amp; Nagar Haveli</option><option>Daman &amp; Diu</option>
+          <option>Delhi (NCT)</option><option>Jammu &amp; Kashmir</option><option>Ladakh</option>
+          <option>Lakshadweep</option><option>Puducherry</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Election type</label>
+        <select class="field-input" id="electionType">
+          <option value="">Which election?</option>
+          <option>Lok Sabha (General Election)</option>
+          <option>Vidhan Sabha (State Assembly)</option>
+          <option>Municipal / Panchayat</option>
+          <option>By-election</option>
+          <option>Not sure</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Voter ID / EPIC status</label>
+        <select class="field-input" id="epicStatus">
+          <option value="">Not sure…</option>
+          <option>I have my Voter ID (EPIC card)</option>
+          <option>I applied but haven't received it</option>
+          <option>I lost my Voter ID</option>
+          <option>I've never applied for Voter ID</option>
+          <option>My EPIC has wrong/old details</option>
+          <option>I only have Aadhaar, no EPIC</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Voter list / Roll status</label>
+        <select class="field-input" id="rollStatus">
+          <option value="">Not sure…</option>
+          <option>I'm on the electoral roll</option>
+          <option>I think I'm enrolled</option>
+          <option>I recently moved to this area</option>
+          <option>I just turned 18</option>
+          <option>I've never enrolled</option>
+          <option>I may have been deleted from roll</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Voting preference</label>
+        <select class="field-input" id="voteMethod">
+          <option value="">Not sure yet…</option>
+          <option>Vote at my assigned booth in person</option>
+          <option>Postal ballot (if eligible)</option>
+          <option>I need accessibility assistance</option>
+          <option>I want to vote but don't know my booth</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Documents on hand</label>
+        <select class="field-input" id="docStatus">
+          <option value="">Not sure…</option>
+          <option>I have EPIC + Aadhaar</option>
+          <option>I only have Aadhaar</option>
+          <option>I have passport or driving licence</option>
+          <option>I have MNREGA / PAN card</option>
+          <option>I have no valid ID</option>
+        </select>
+      </div>
+      <div class="field-group full">
+        <label class="field-label">Your situation (optional but powerful)</label>
+        <textarea class="field-input" id="situationText" rows="3"
+          placeholder="E.g. 'Mera naam Rahul Sharma hai, main recently Pune se Mumbai shift hua hoon, mera EPIC card purane address pe hai aur Vidhan Sabha chunav 2 mahine mein hai…'" style="resize:vertical;"></textarea>
+      </div>
+    </div>
+
+    <button class="analyze-btn" id="analyzeBtn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Mera Election Readiness Analyze Karo
+    </button>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-strip" id="progressStrip">
+    <div class="prog-top">
+      <span class="prog-label-txt">Aapki Matdata Tayyari</span>
+      <span class="prog-pct" id="progPct">—</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading-card" id="loadingCard">
+    <div class="loading-orb"></div>
+    <div class="loading-title">Aapki situation analyze ho rahi hai…</div>
+    <div class="loading-sub">Claude ECI rules aur aapki state ke election laws review kar raha hai</div>
+    <div class="loading-steps" id="loadingSteps"></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-area" id="resultsArea">
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="resultsTitle">Aapka Readiness Plan</div>
+        <div class="results-meta" id="resultsMeta"></div>
+      </div>
+      <button class="reset-btn" id="resetBtn">↺ Phir se shuru</button>
+    </div>
+    <div class="response-grid" id="responseGrid"></div>
+
+    <!-- CHAT -->
+    <div class="chat-section">
+      <div class="chat-header">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 3.5A1.5 1.5 0 013.5 2h9A1.5 1.5 0 0114 3.5v7A1.5 1.5 0 0112.5 12H9l-3 2v-2H3.5A1.5 1.5 0 012 10.5v-7z" stroke="currentColor" stroke-width="1.3"/></svg>
+        Apna sawaal poochein — AI jawab dega
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="followup-chips" id="followupChips"></div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" placeholder="Koi bhi sawaal poochein apni voting situation ke baare mein…"/>
+        <button class="chat-send" id="chatSend">Bhejo ↗</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-text">CivicGuide India AI · Powered by Claude · ECI rules par based</div>
+    <div class="footer-eci">Always verify critical deadlines with the Election Commission of India — eci.gov.in</div>
+  </footer>
+</div>
+
+<script>
+const API_URL='https://api.anthropic.com/v1/messages';
+const MODEL='claude-sonnet-4-20250514';
+
+let chatHistory=[];
+let userProfile={};
+
+const quickQuestions=[
+  'Abhi 18 hua hoon','Voter ID nahi hai','Main migrate worker hoon',
+  'Address change hua hai','NRI hoon','Divyang hoon',
+  'Voter roll mein naam nahi','EPIC lost ho gaya',
+  'First time voter','Abhi naya state mein shift hua'
+];
+
+const loadingLabels=[
+  'ECI rules aur state election laws check kar rahe hain',
+  'Aapka EPIC / Voter ID status evaluate ho raha hai',
+  'Electoral roll enrollment verify kar rahe hain',
+  'Booth aur constituency details analyze ho rahe hain',
+  'Aapka personalized readiness plan likh rahe hain'
+];
+
+function renderQuickChips(){
+  const c=document.getElementById('quickChips');
+  quickQuestions.forEach(q=>{
+    const b=document.createElement('button');
+    b.className='quick-chip';b.textContent=q;
+    b.addEventListener('click',()=>{
+      const ta=document.getElementById('situationText');
+      ta.value=ta.value?ta.value+'. '+q:q;
+      b.classList.add('sel');
+    });
+    c.appendChild(b);
+  });
+}
+
+function renderLoadingSteps(){
+  const c=document.getElementById('loadingSteps');c.innerHTML='';
+  loadingLabels.forEach((l,i)=>{
+    const d=document.createElement('div');
+    d.className='loading-step';d.id='lstep-'+i;
+    d.innerHTML=`<span class="step-dot"></span><span>${l}</span>`;
+    c.appendChild(d);
+  });
+}
+
+function animateSteps(){
+  let i=0;
+  const iv=setInterval(()=>{
+    if(i>0){const p=document.getElementById('lstep-'+(i-1));if(p)p.className='loading-step done';}
+    const cur=document.getElementById('lstep-'+i);if(cur)cur.className='loading-step active';
+    i++;if(i>=loadingLabels.length)clearInterval(iv);
+  },950);
+}
+
+document.getElementById('analyzeBtn').addEventListener('click',runAnalysis);
+
+async function runAnalysis(){
+  const state=document.getElementById('stateSelect').value;
+  const electionType=document.getElementById('electionType').value;
+  const epicStatus=document.getElementById('epicStatus').value;
+  const rollStatus=document.getElementById('rollStatus').value;
+  const voteMethod=document.getElementById('voteMethod').value;
+  const docStatus=document.getElementById('docStatus').value;
+  const situation=document.getElementById('situationText').value;
+
+  if(!state&&!situation){
+    document.getElementById('situationText').focus();
+    document.getElementById('situationText').style.borderColor='#ff4444';
+    setTimeout(()=>document.getElementById('situationText').style.borderColor='',2000);
+    return;
+  }
+
+  userProfile={state,electionType,epicStatus,rollStatus,voteMethod,docStatus,situation};
+
+  document.getElementById('inputCard').style.display='none';
+  document.getElementById('loadingCard').classList.add('visible');
+  renderLoadingSteps();animateSteps();
+
+  const systemPrompt=`You are CivicGuide India AI — an expert Indian election readiness analyst with comprehensive knowledge of:
+- Election Commission of India (ECI) rules and procedures
+- Voter registration (Form 6, 6A, 6B, 7, 8, 8A) under RPA 1950 and 1951
+- EPIC (Electors Photo Identity Card) issuance, correction, and replacement procedures
+- Electoral roll management — addition, deletion, correction
+- Booth Level Officer (BLO) system and constituency structure
+- Postal ballot eligibility (senior citizens 80+, PwD, essential services, overseas Indians)
+- Alternative photo ID documents accepted at booths (ECI circular)
+- State-specific election schedules, Model Code of Conduct, and ECI notifications
+- NRI/overseas voter registration (Form 6A)
+- Migration and address change procedures (Form 8A)
+- PwD voter accessibility provisions
+- Lok Sabha vs Vidhan Sabha vs local body election differences
+- NVSP (National Voters' Service Portal) and Voter Helpline 1950
+
+CRITICAL: Return ONLY valid JSON — no markdown fences, no explanation outside JSON.
+
+Return this exact structure:
+{
+  "readinessScore": 0-100,
+  "scoreLabel": "e.g. 'Turant Kadam Uthao' or 'Lagbhag Taiyar' or 'Matdan Ke Liye Taiyar'",
+  "headline": "Personalized Hindi/English headline, e.g. 'Maharashtra ke naye migrant voter: 3 zaroori kadam baaki hain'",
+  "phases": [
+    {
+      "num": "01",
+      "title": "Phase title in English",
+      "status": "urgent|action|ready|info",
+      "statusLabel": "TURANT|KADAM ZAROOR|TAIYAR|JANKARI",
+      "summary": "2-3 sentence personalized analysis referencing ECI rules specific to their state and situation",
+      "keyFacts": ["fact 1 with specific ECI rule/form number", "fact 2", "fact 3"],
+      "nextStep": "The single most important thing they must do right now, with specific form number or portal (NVSP) if applicable"
+    }
+  ],
+  "topWarning": "Most critical alert (or null)",
+  "followupSuggestions": ["Question 1 in Hinglish?", "Question 2?", "Question 3?"]
+}
+
+Cover phases: Voter Roll Enrollment, EPIC / Voter ID, Booth & Constituency, Election Day Process.
+Be SPECIFIC — cite actual ECI forms (Form 6, 6A, 6B, 7, 8, 8A), NVSP portal, BLO role, Voter Helpline 1950.
+Reference their exact state's upcoming election if known.
+If their state is undergoing elections soon, flag urgency.
+Mix Hindi/English naturally (Hinglish) in summaries to feel accessible.
+Be honest — if a deadline has likely passed, say so clearly.`;
+
+  const userMsg=`Analyze this Indian voter's situation:
+State/UT: ${state||'Not specified'}
+Election type: ${electionType||'Unknown'}
+EPIC status: ${epicStatus||'Unknown'}
+Electoral roll status: ${rollStatus||'Unknown'}
+Voting preference: ${voteMethod||'Unknown'}
+Documents available: ${docStatus||'Unknown'}
+Additional context: ${situation||'None'}
+
+Generate their complete personalized Indian election readiness plan with specific ECI rules and form numbers.`;
+
+  try{
+    const res=await fetch(API_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:MODEL,max_tokens:1000,system:systemPrompt,messages:[{role:'user',content:userMsg}]})
+    });
+    const data=await res.json();
+    const raw=data.content?.map(b=>b.text||'').join('')||'';
+    let result;
+    try{result=JSON.parse(raw.replace(/```json|```/g,'').trim());}
+    catch(e){result=buildFallback(state);}
+    chatHistory=[{role:'user',content:userMsg},{role:'assistant',content:raw}];
+    showResults(result);
+  }catch(err){
+    console.error(err);
+    showResults(buildFallback(state));
+  }
+}
+
+function buildFallback(state){
+  return{
+    readinessScore:20,scoreLabel:'Turant Kadam Uthao',
+    headline:'Aapki voter readiness abhi incomplete hai — aaj hi shuru karein',
+    phases:[
+      {num:'01',title:'Voter Roll Enrollment',status:'urgent',statusLabel:'TURANT',
+       summary:'Pehle confirm karein ki aapka naam electoral roll mein hai ya nahi. Bina enrollment ke vote dena impossible hai.',
+       keyFacts:['NVSP.in ya 1950 helpline par naam check karein','Naye enrollment ke liye Form 6 bharein (18+ citizens)','NRIs ke liye Form 6A, address change ke liye Form 8A'],
+       nextStep:'voter.eci.gov.in par jaayein aur "Search in Electoral Roll" mein apna naam dhundhein.'},
+      {num:'02',title:'EPIC / Voter ID Card',status:'action',statusLabel:'KADAM ZAROOR',
+       summary:'EPIC card polling booth par primary identity proof hai. Agar nahi hai ya kho gaya hai, turant apply karein.',
+       keyFacts:['EPIC ke liye NVSP par Form 6 bharen — free of cost','Khoye huye EPIC ke liye Form 002 apply karein','Election wale din 11 alternative IDs bhi accepted hain (Aadhaar, PAN, Passport, Driving Licence, etc.)'],
+       nextStep:'nvsp.in ya Voter Helpline App se EPIC apply/track karein.'},
+      {num:'03',title:'Booth & Constituency',status:'action',statusLabel:'KADAM ZAROOR',
+       summary:'Har voter ka ek assigned booth hota hai. Election wale din sirf usi booth par vote kar sakte hain.',
+       keyFacts:['Apna booth voter.eci.gov.in par "Know Your Polling Station" se dhundhein','Apne BLO (Booth Level Officer) ka naam bhi wahan milega','Booth slips election se kuch din pehle ghar aati hain — unhe sambhal ke rakhein'],
+       nextStep:'voter.eci.gov.in par "Know Your Polling Station" kholein aur apna booth note karein.'},
+      {num:'04',title:'Election Day Process',status:'info',statusLabel:'JANKARI',
+       summary:'Election wale din kya le jaayein, kaise vote karein — poori taiyari karein pehle se.',
+       keyFacts:['EPIC ya 11 alternative IDs mein se koi ek le jaayein','Booth ke andar mobile phone allowed nahi hai','PwD voters ko priority entry aur wheelchair assistance milti hai'],
+       nextStep:'Voter Helpline 1950 par koi bhi sawaal poochh sakte hain — free aur 24x7.'}
+    ],
+    topWarning:'Agar aapka naam electoral roll mein nahi hai toh aap vote NAHI kar sakte — pehle yeh check karein.',
+    followupSuggestions:['Mera naam roll mein kaise check karein?','Kaunse 11 alternative IDs accepted hain?','NRI ke liye kaise register karein?']
+  };
+}
+
+function showResults(result){
+  document.getElementById('loadingCard').classList.remove('visible');
+
+  const strip=document.getElementById('progressStrip');
+  strip.classList.add('visible');
+  setTimeout(()=>{
+    document.getElementById('progFill').style.width=result.readinessScore+'%';
+    document.getElementById('progPct').textContent=result.readinessScore+'% — '+result.scoreLabel;
+  },200);
+
+  document.getElementById('resultsTitle').textContent=result.headline||'Aapka Readiness Plan';
+  document.getElementById('resultsMeta').textContent=
+    (userProfile.state?userProfile.state+' · ':'')+
+    (userProfile.electionType?userProfile.electionType+' · ':'')+
+    'Claude AI Analysis · '+new Date().toLocaleDateString('en-IN');
+
+  const grid=document.getElementById('responseGrid');
+  grid.innerHTML='';
+
+  if(result.topWarning){
+    const warn=document.createElement('div');
+    warn.style.cssText='background:var(--urgent-bg);border:1px solid var(--urgent-border);border-radius:12px;padding:0.9rem 1.1rem;display:flex;gap:10px;align-items:flex-start;';
+    warn.innerHTML=`<span style="font-size:20px;flex-shrink:0;">⚠️</span>
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#ff8888;margin-bottom:3px;">Zaroori Chetavani</div>
+        <div style="font-size:14px;color:var(--text-on-dark);line-height:1.6;">${result.topWarning}</div>
+      </div>`;
+    grid.appendChild(warn);
+  }
+
+  const statusMap={urgent:'s-urgent',action:'s-action',ready:'s-ready',info:'s-info'};
+
+  (result.phases||[]).forEach((phase,i)=>{
+    const card=document.createElement('div');
+    card.className='response-card';
+    card.style.animationDelay=(i*0.1)+'s';
+    const sc=statusMap[phase.status]||'s-info';
+    const factsHtml=(phase.keyFacts||[]).map(f=>`
+      <li>
+        <span class="fact-icon"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><polyline points="2,5 4.5,7.5 8,2.5" stroke="#1aad0a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span>${f}</span>
+      </li>`).join('');
+    card.innerHTML=`
+      <div class="card-header">
+        <div><div class="card-num">Phase ${phase.num}</div><div class="card-title">${phase.title}</div></div>
+        <span class="card-status ${sc}">${phase.statusLabel}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-summary">${phase.summary}</div>
+        <ul class="key-facts">${factsHtml}</ul>
+        ${phase.nextStep?`<div class="next-step-box"><div class="next-step-label">Abhi Karo</div><div class="next-step-text">${phase.nextStep}</div></div>`:''}
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  const fc=document.getElementById('followupChips');fc.innerHTML='';
+  (result.followupSuggestions||[]).forEach(q=>{
+    const chip=document.createElement('button');chip.className='followup-chip';chip.textContent=q;
+    chip.addEventListener('click',()=>{document.getElementById('chatInput').value=q;sendChat();});
+    fc.appendChild(chip);
+  });
+
+  document.getElementById('resultsArea').classList.add('visible');
+
+  document.getElementById('resetBtn').addEventListener('click',()=>{
+    document.getElementById('resultsArea').classList.remove('visible');
+    document.getElementById('progressStrip').classList.remove('visible');
+    document.getElementById('inputCard').style.display='block';
+    document.getElementById('chatMessages').innerHTML='';
+    chatHistory=[];
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+}
+
+// CHAT
+document.getElementById('chatSend').addEventListener('click',sendChat);
+document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}});
+
+async function sendChat(){
+  const input=document.getElementById('chatInput');
+  const q=input.value.trim();if(!q)return;
+  input.value='';
+  document.getElementById('chatSend').disabled=true;
+  addMsg('user',q);
+
+  const typing=document.createElement('div');
+  typing.className='chat-msg msg-ai';
+  typing.innerHTML=`<div class="chat-msg-role">CivicGuide AI</div><div class="chat-msg-text"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  document.getElementById('chatMessages').appendChild(typing);scrollChat();
+
+  chatHistory.push({role:'user',content:q});
+
+  const sys=`You are CivicGuide India AI — an expert on Indian election law and ECI procedures. Answer voter questions concisely and accurately in Hinglish (mix of Hindi and English). Reference specific ECI forms, portals (NVSP, voter.eci.gov.in), and Voter Helpline 1950 where relevant.
+
+User profile: State: ${userProfile.state||'Unknown'}, Election: ${userProfile.electionType||'Unknown'}, EPIC: ${userProfile.epicStatus||'Unknown'}, Roll: ${userProfile.rollStatus||'Unknown'}, Docs: ${userProfile.docStatus||'Unknown'}.
+Situation: ${userProfile.situation||'None'}.
+
+Be direct, specific, and helpful. 2-4 sentences unless the question needs more. Always cite the relevant ECI form or portal.`;
+
+  try{
+    const res=await fetch(API_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:MODEL,max_tokens:1000,system:sys,messages:chatHistory})
+    });
+    const data=await res.json();
+    const reply=data.content?.map(b=>b.text||'').join('')||'Kuch gadbad ho gayi. Phir se try karein.';
+    chatHistory.push({role:'assistant',content:reply});
+    typing.querySelector('.chat-msg-text').textContent=reply;
+    scrollChat();
+  }catch(e){
+    typing.querySelector('.chat-msg-text').textContent='Network error. Please try again.';
+  }
+  document.getElementById('chatSend').disabled=false;
+  input.focus();
+}
+
+function addMsg(role,text){
+  const el=document.createElement('div');
+  el.className=`chat-msg msg-${role}`;
+  el.innerHTML=`<div class="chat-msg-role">${role==='user'?'Aap':'CivicGuide AI'}</div><div class="chat-msg-text">${text}</div>`;
+  document.getElementById('chatMessages').appendChild(el);scrollChat();
+}
+
+function scrollChat(){const m=document.getElementById('chatMessages');m.scrollTop=m.scrollHeight;}
+
+renderQuickChips();
+</script>
+</body>
+</html>
